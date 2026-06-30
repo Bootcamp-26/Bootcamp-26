@@ -164,6 +164,3 @@ IdeApp/
 
 Proje adımları tamamlandıkça eklenecektir...
 
-## Lisans
-
-Bu proje Yapay Zeka ve Teknoloji Akademisi (YZTA) Bootcamp 2026 kapsamında geliştirilmektedir.
