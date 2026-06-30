@@ -1,108 +1,169 @@
-# Bootcamp-26
-İdea pool project for yzta academy
-<div align="center">
+# IdeApp — Yapay Zeka Destekli Fikir Geliştirme Asistanı
 
-<!-- LOGO / BANNER -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=IdeaPool%20RAG&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=İnternetteki%20Verilerle%20Güçlendirilmiş%20Fikir%20Havuzu&descAlignY=60&descAlign=50" alt="IdeaPool RAG Banner"/>
-
-# 💡 IdeaPool RAG
-### *İnternetteki Canlı Verilerle Beslenen Akıllı Fikir Havuzu*
-
-<br/>
-
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![LangChain](https://img.shields.io/badge/LangChain-0.2+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain.com)
-[![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_Store-FF6B35?style=for-the-badge)](https://trychroma.com)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.111+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-
-<br/>
-
-[🚀 Hızlı Başlangıç](#-hızlı-başlangıç) •
-[📖 Dokümantasyon](#-mimari) •
-[🎯 Özellikler](#-özellikler) •
-[🤝 Katkı Sağla](#-katkıda-bulunma)
-
-<br/>
-
-> **"Milyonlarca internetteki içeriği gerçek zamanlı olarak taran, anlamlandıran ve sana en ilgili fikirleri sunan yapay zeka destekli fikir motoru."**
-
-</div>
+> Fikir üretmekte zorlanıyor musun? IdeApp, seni temadan fikre, fikirden derin araştırmaya taşır.
 
 ---
 
-## 📌 İçindekiler
+## Takım Bilgileri
 
-- [Proje Hakkında](#-proje-hakkında)
-- [Özellikler](#-özellikler)
-- [Mimari](#-mimari)
-- [RAG Pipeline Detayları](#-rag-pipeline-detayları)
-- [Kurulum](#-kurulum)
-- [Hızlı Başlangıç](#-hızlı-başlangıç)
-- [Kullanım Örnekleri](#-kullanım-örnekleri)
-- [API Referansı](#-api-referansı)
-- [Konfigürasyon](#-konfigürasyon)
-- [Veri Kaynakları](#-veri-kaynakları)
-- [Performans ve Benchmarklar](#-performans-ve-benchmarklar)
-- [Yol Haritası](#-yol-haritası)
-- [Katkıda Bulunma](#-katkıda-bulunma)
-- [Lisans](#-lisans)
+**Takım İsmi:** [Takım Adınız]
+
+| Üye | Rol |
+|-----|-----|
+| Zeynep Temiz | Product Owner |
+| Burak Ilgın | Scrum Master |
+| İlkay Cangüder | Developer |
+| Asel Yılmaz | Developer |
+| Bengisu Küpeli| Developer |
 
 ---
 
-## 🧠 Proje Hakkında
+## Ürün Bilgileri
 
-**IdeaPool RAG**, internet üzerindeki güncel verileri sürekli olarak toplayarak, vektör tabanlı bir bilgi tabanı oluşturan ve kullanıcıların doğal dil sorgularıyla bu havuzdan en alakalı fikirleri anında keşfetmesini sağlayan açık kaynaklı bir yapay zeka projesidir.
+**Ürün İsmi:** IdeApp
 
-Geleneksel arama motorlarının aksine, IdeaPool RAG yalnızca anahtar kelime eşleştirmesi yapmaz — **anlamsal benzerlik** ve **bağlamsal anlayış** ile sorgularınızı derinlemesine yorumlar.
+**Ürün Açıklaması:**
+IdeApp, fikir üretmekte zorlanan kullanıcılara yapay zeka ve internet tabanlı veri toplama ile kişiselleştirilmiş bir fikir geliştirme ortamı sunar. Kullanıcı bir tema seçer, AI bu temaya uygun fikir önerileri sunar, sistem seçilen fikre ilişkin internet kaynaklarını otomatik olarak toplayarak bir RAG (Retrieval-Augmented Generation) bilgi ortamı oluşturur. Kullanıcı bu ortam içinde fikriyle ilgili sorularını serbestçe sorarak fikrini derinleştirebilir ve geliştirebilir — hiçbir kaynak yüklemesi gerekmez.
 
-### 🎯 Ne İşe Yarar?
+**Ürün Özellikleri:**
+- 🎯 AI destekli tema ve fikir önerisi (Ollama / Gemma 3:4b)
+- 🔍 Web arama ajanı ile otomatik kaynak toplama (Tavily API)
+- 🧠 Oturum bazlı RAG pipeline (ChromaDB + nomic-embed-text)
+- 💬 Bağlamdan çıkmadan sürekli sohbet modu (Llama 3.1:8b)
+- ⚡ Kullanıcıdan kaynak yüklemesi gerektirmeyen sıfır-sürtünme deneyimi
+
+**Hedef Kitle:**
+- Girişim veya proje fikri arayan bireyler
+- Araştırmaya başlamak isteyen öğrenciler ve akademisyenler
+- İçerik üreticiler ve yaratıcı profesyoneller
+- Yeni alanlara girmek isteyen meraklı kullanıcılar
+
+**Teknoloji Yığını:**
+
+| Katman | Teknoloji |
+|--------|-----------|
+| Arayüz (UI) | Streamlit |
+| Dil | Python 3.11+ |
+| LLM — geliştirme | Ollama (Gemma 3:4b, Llama 3.1:8b) |
+| LLM — deploy | Groq API (llama-3.1-8b-instant) |
+| Embedding | nomic-embed-text (Ollama) |
+| Vektör Veritabanı | ChromaDB (in-memory, oturum bazlı) |
+| Web Arama | Tavily API |
+| Deploy | Streamlit Community Cloud |
+
+> **Not:** Proje tamamen Python ile geliştirilmektedir. Streamlit, hem arayüzü hem de uygulama mantığını tek bir dilde yazmamızı sağladığı için tercih edilmiştir — ayrı bir frontend framework'üne (React/Next.js vb.) ihtiyaç duyulmamaktadır.
+
+**Product Backlog:** Proje linki eklenecek.....
+
+---
+
+## Sprint 1 — 19 Haziran / 5 Temmuz 2026
+
+### Sprint Hedefi
+Temel uygulama iskeletinin kurulması; tema seçimi → fikir önerisi → Ollama entegrasyonu akışının Streamlit arayüzünde uçtan uca çalışır hale getirilmesi.
+
+---
+
+### Backlog Dağıtım Mantığı
+
+Sprint 1'de toplam **21 story point** planlandı. Story'ler aşağıdaki öncelik mantığıyla seçildi:
+
+1. **Altyapı önce:** Ollama entegrasyonu ve Streamlit kurulumu olmadan hiçbir özellik geliştirilemez.
+2. **Dikey dilim yaklaşımı:** Sprint sonunda en az tema → fikir akışı uçtan uca çalışmalı, tek bir `app.py` üzerinden test edilebilir olmalı.
+3. **RAG pipeline Sprint 2'ye ertelendi:** ChromaDB ve Tavily entegrasyonu bağımlılık zinciri oluşturduğundan kapsam dışı bırakıldı.
+
+| ID | User Story | Atanan | Puan | Durum |
+|----|-----------|--------|------|-------|
+| US-01 | Projeye ait detayların hazırlanması ve repo hazırlıklarının yapılması | Burak | 2 | ✅ Done |
+
+---
+
+### Daily Scrum Notları
+
+📎 Notların tamamı için: [docs/sprint1/daily_scrums.md](docs/sprint1/daily_scrums.md)
+
+---
+
+### Sprint Board
+
+_Ekran görüntüsü sprint ilerledikçe güncellenecektir._
+
+---
+
+### Ürün Durumu
+
+_Sprint 1 tamamlandığında çalışan Streamlit ekranlarının görüntüleri buraya eklenecek._
+
+---
+
+### Sprint Review
+
+_5 Temmuz 2026 sonrasında doldurulacak._
+
+**Tamamlanan story'ler:**
+
+**Tamamlanamayan story'ler ve nedenler:**
+
+**Demo notları:**
+
+---
+
+### Sprint Retrospective
+
+_5 Temmuz 2026 sonrasında doldurulacak._
+
+**İyi gidenler:**
+
+**Geliştirmemiz gerekenler:**
+
+**Sprint 2 için aksiyon maddeleri:**
+
+---
+
+## Sprint 2 — 6 Temmuz / 19 Temmuz 2026
+
+_Sprint 2 başlangıcında güncellenecek._
+
+---
+
+## Sprint 3 — 20 Temmuz / 2 Ağustos 2026
+
+_Sprint 3 başlangıcında güncellenecek._
+
+---
+
+## Proje Yapısı
 
 ```
-Kullanıcı Sorgusu:  "2025'te sürdürülebilir enerji alanında yatırım fırsatları neler?"
-         ↓
-IdeaPool RAG Motoru →  Son 30 günün makaleleri + akademik yayınlar + haber akışları
-         ↓
-Çıktı:  Kaynakları ve güven skoruyla birlikte 5 adet rafine edilmiş, eyleme geçirilebilir fikir
+IdeApp/
+├── README.md
+├── app.py                  # Streamlit giriş noktası, tüm UI burada
+├── requirements.txt
+├── .env.example
+├── services/
+│   ├── llm_service.py      # Ollama / Groq soyutlama katmanı
+│   ├── search_service.py   # Tavily entegrasyonu
+│   └── rag_service.py      # ChromaDB + embedding + retrieval
+├── components/
+│   ├── theme_picker.py     # tema seçim ekranı fonksiyonu
+│   ├── idea_picker.py      # fikir seçim ekranı fonksiyonu
+│   └── chat_ui.py          # RAG sohbet ekranı fonksiyonu
+└── docs/
+    ├── sprint1/
+    │   ├── planning.md
+    │   ├── daily_scrums.md
+    │   ├── review.md
+    │   └── retrospective.md
+    ├── sprint2/
+    └── sprint3/
 ```
 
-### 💼 Kimler İçin?
-
-| Hedef Kitle | Kullanım Senaryosu |
-|---|---|
-| 🧑‍💼 **Girişimciler** | Pazar boşluklarını ve yeni iş fikirlerini keşfetme |
-| 🔬 **Araştırmacılar** | Literatür taraması ve hipotez üretimi |
-| 🎨 **İçerik Üreticileri** | Viral ve özgün içerik fikirleri bulma |
-| 🏢 **Kurumsal Ekipler** | Rekabet analizi ve inovasyon yönetimi |
-| 📚 **Öğrenciler** | Tez konuları ve proje fikirleri geliştirme |
-
 ---
 
-## ✨ Özellikler
+## Kurulum
 
-### 🔍 Akıllı Veri Toplama
-- **Gerçek Zamanlı Web Crawling** — RSS akışları, haber siteleri, bloglar ve akademik kaynaklar
-- **Otomatik İçerik Filtreleme** — Düşük kaliteli ve tekrar eden içerikleri ayıklama
-- **Çok Dilli Destek** — Türkçe, İngilizce ve 15+ dil
-- **Kaynak Güvenilirlik Puanlaması** — Domain otoritesine dayalı içerik kalite skoru
+Proje adımları tamamlandıkça eklenecektir...
 
-### 🧩 RAG Motoru
-- **Hibrit Arama** — Dense + Sparse vektör kombinasyonu (BM25 + FAISS)
-- **Yeniden Sıralama (Re-ranking)** — Cross-encoder ile sonuç kalitesini artırma
-- **Bağlam Penceresi Optimizasyonu** — Uzun belgeleri akıllıca parçalara bölme
-- **Halüsinasyon Tespiti** — Üretilen içeriğin kaynaklarla çapraz doğrulaması
+## Lisans
 
-### 💡 Fikir Üretimi
-- **Kümeleme Motoru** — Benzer fikirleri otomatik gruplandırma
-- **Trend Analizi** — Zaman serisi bazlı popülerlik tespiti
-- **Özgünlük Skoru** — Fikrin ne kadar az işlendiğini ölçme
-- **Eylem Planı Önerisi** — Fikri hayata geçirmek için adım adım yol haritası
-
-### 🔌 Entegrasyonlar
-- Notion, Obsidian, Roam Research bağlantısı
-- Slack ve Discord bot desteği
-- REST API ve Python SDK
-- Webhook desteği ile otomasyon araçları (Zapier, Make)
-
----
+Bu proje Yapay Zeka ve Teknoloji Akademisi (YZTA) Bootcamp 2026 kapsamında geliştirilmektedir.
