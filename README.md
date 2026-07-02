@@ -6,7 +6,7 @@
 
 ## Takım Bilgileri
 
-**Takım İsmi:** [Takım Adınız]
+**Takım İsmi:** Grup-318
 
 | Üye | Rol |
 |-----|-----|
