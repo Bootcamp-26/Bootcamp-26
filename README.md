@@ -76,13 +76,13 @@ Sprint 1'de fikre ait olan adımlar geliştiriciler tarafından kendi çalışma
 
 ### Daily Scrum Notları
 
-📎 Notların tamamı için: [docs/sprint1/daily_scrums.md](docs/Sprint-1/daily_scrums.md)
+📎 Notların tamamı için: [docs/Sprint-1/daily_scrums.md](docs/Sprint-1/daily_scrums.md)
 
 ---
 
 ### Sprint Board
 
-📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](Github_Projects)
+📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1](Github_Projects)
 
 ---
 
