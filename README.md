@@ -82,7 +82,7 @@ Sprint 1'de fikre ait olan adımlar geliştiriciler tarafından kendi çalışma
 
 ### Sprint Board
 
-📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1](Github_Projects)
+📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](https://github.com/orgs/Bootcamp-26/projects/1/views/1)
 
 ---
 
