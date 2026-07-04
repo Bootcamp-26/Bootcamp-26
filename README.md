@@ -66,10 +66,10 @@ Temel uygulama iskeletinin kurulması; tema seçimi → fikir önerisi → Ollam
 
 ### Backlog Dağıtım Mantığı
 
-Sprint 1'de toplam **21 story point** planlandı. Story'ler aşağıdaki öncelik mantığıyla seçildi:
+Sprint 1'de fikre ait olan adımlar geliştiriciler tarafından kendi çalışma planına göre parçalanarak planlanmıştır.
 
 1. **Altyapı önce:** Ollama entegrasyonu ve Streamlit kurulumu olmadan hiçbir özellik geliştirilemez.
-2. **Dikey dilim yaklaşımı:** Sprint sonunda en az tema → fikir akışı uçtan uca çalışmalı, tek bir `app.py` üzerinden test edilebilir olmalı.
+2. **Dikey dilim yaklaşımı:** Sprint sonunda proje detayları ve tasarımları belirlenmiş ve tamamlanmış olması planlamıştır. Sprint 2'de geliştirmeye başlanılacaktır.
 3. **RAG pipeline Sprint 2'ye ertelendi:** ChromaDB ve Tavily entegrasyonu bağımlılık zinciri oluşturduğundan kapsam dışı bırakıldı.
 
 | ID | User Story | Atanan | Puan | Durum |
@@ -80,13 +80,13 @@ Sprint 1'de toplam **21 story point** planlandı. Story'ler aşağıdaki önceli
 
 ### Daily Scrum Notları
 
-📎 Notların tamamı için: [docs/sprint1/daily_scrums.md](docs/sprint1/daily_scrums.md)
+📎 Notların tamamı için: [docs/sprint1/daily_scrums.md](docs/Sprint-1/daily_scrums.md)
 
 ---
 
 ### Sprint Board
 
-_Ekran görüntüsü sprint ilerledikçe güncellenecektir._
+📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](Github_Projects)
 
 ---
 
@@ -137,25 +137,25 @@ _Sprint 3 başlangıcında güncellenecek._
 ```
 IdeApp/
 ├── README.md
-├── app.py                  # Streamlit giriş noktası, tüm UI burada
+├── app.py                  # Streamlit giriş noktası, tüm UI burada olacak şekilde planlandı, geliştirme durumuna göre değiştirilebilir.
 ├── requirements.txt
 ├── .env.example
 ├── services/
 │   ├── llm_service.py      # Ollama / Groq soyutlama katmanı
-│   ├── search_service.py   # Tavily entegrasyonu
-│   └── rag_service.py      # ChromaDB + embedding + retrieval
+│   ├── search_service.py   # Tavily entegrasyonu öncelikli düşünüldü, performans ve verimliliğe göre update edilebilir
+│   └── rag_service.py      # ChromaDB + embedding + retrieval -> RAG gerekliliklerine uygun mimari tasarımı oluşturulacaktır.
 ├── components/
 │   ├── theme_picker.py     # tema seçim ekranı fonksiyonu
 │   ├── idea_picker.py      # fikir seçim ekranı fonksiyonu
 │   └── chat_ui.py          # RAG sohbet ekranı fonksiyonu
 └── docs/
-    ├── sprint1/
+    ├── Sprint-1/
     │   ├── planning.md
     │   ├── daily_scrums.md
     │   ├── review.md
     │   └── retrospective.md
-    ├── sprint2/
-    └── sprint3/
+    ├── Sprint-2/
+    └── Sprint-3/
 ```
 
 ---
