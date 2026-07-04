@@ -13,11 +13,7 @@ Kullanıcı UI/UX tasrımları ve proje detaylarının kesinleştirilmesine dair
 
 ### Görev Dağılımı
 
-| Üye | Sprint boyunca odaklanacağı alan |
-|-----|----------------------------------|
-| [İsim] | llm_service.py, Ollama entegrasyonu |
-| [İsim] | theme_picker.py, idea_picker.py |
-| [İsim] | app.py iskelet, genel Streamlit yapısı |
+Üyeler arasında görev dağılımı yapılmamıştır, genel bilgi toplama ve sistem hazırlıkları için planlama yapılması adına 2. sprintte görev dağılımı yapılacaktır.
 
 ---
 
