@@ -72,10 +72,6 @@ Sprint 1'de fikre ait olan adımlar geliştiriciler tarafından kendi çalışma
 2. **Dikey dilim yaklaşımı:** Sprint sonunda proje detayları ve tasarımları belirlenmiş ve tamamlanmış olması planlamıştır. Sprint 2'de geliştirmeye başlanılacaktır.
 3. **RAG pipeline Sprint 2'ye ertelendi:** ChromaDB ve Tavily entegrasyonu bağımlılık zinciri oluşturduğundan kapsam dışı bırakıldı.
 
-| ID | User Story | Atanan | Puan | Durum |
-|----|-----------|--------|------|-------|
-| US-01 | Projeye ait detayların hazırlanması ve repo hazırlıklarının yapılması | Burak | 2 | ✅ Done |
-
 ---
 
 ### Daily Scrum Notları
