@@ -88,7 +88,7 @@ Sprint 1'de fikre ait olan adımlar geliştiriciler tarafından kendi çalışma
 
 ### Ürün Durumu
 
-_Sprint 1 tamamlandığında çalışan Streamlit ekranlarının görüntüleri buraya eklenecek._
+_Sprint 2 süresince hazırlanan ve çalışır durumdaki Streamlit ekranlarının görüntüleri buraya eklenecek._
 
 ---
 
