@@ -5,5 +5,5 @@
 
 **02/07/2026 tarihli toplantı planlaması**
 
-![Screenshot 2026-07-05 at 4 29 51 PM](https://github.com/user-attachments/assets/21d307bb-db7d-4cb1-941a-ebe9d76294e9)
+<img width="1195" height="777" alt="Screenshot 2026-07-05 at 4 53 24 PM" src="https://github.com/user-attachments/assets/e04b6208-a9b7-44b1-872f-e57d11e9559f" />
 
