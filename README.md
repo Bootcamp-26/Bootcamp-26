@@ -108,7 +108,50 @@ Sprint 1 içerisinde ürüne dair planlama ve araştırma adımları yapılmış
 
 ---
 
-_Sprint 2 başlangıcında güncellenecek._
+### Sprint Hedefi
+Sprint 1'de bahsedilen ürünün production aşamalarının planlarak Code Base oluşturulmaya başlanması
+
+### Backlog Dağıtım Mantığı
+
+Sprint 2'de üretime ait parçalar Developer'lar tarafından kendi çalışma planlarına göre ayarlanmıştır. Ürünün oluşturulma adımları ve mimari tasarımında kullanılması planlanan adımlar aşağıdaki gibidir. Planlanan durumda Sprint sonunda çalışır ürün planlaması yapılmıştır. 
+
+1. **Altyapı önce:** Ollama entegrasyonu ve Streamlit kurulumu olmadan hiçbir özellik geliştirilemez.
+2. **Dikey dilim yaklaşımı:** Sprint sonunda projeye ait çalışır bir demo ürün ortaya çıkması planlanmıştır. Sprint 3'te geliştirme ve iyileştirme basamakları üzerine çalışılması planlanmıştır.
+
+### Daily Scrum Notları
+
+📎 Notların tamamı için: [docs/Sprint-1/daily_scrums.md](docs/Sprint-1/daily_scrums.md)
+
+### Sprint Board
+
+📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](https://github.com/orgs/Bootcamp-26/projects/1/views/1)
+
+### Ürün Durumu
+
+Ürünün gelişme adımları tamamlandıkça durum bilgisi güncellenecektir.
+
+### Sprint Review
+
+Proje üretim aşamasına geçilmiş olup ürün geliştirme aşamasında ekip üyelerinin hangi proje kısmında rol alması gerektiğine karar verilmiştir. Detaylı rol dağılımı Sprint ilerledikçe güncellenecektir.
+
+**Tamamlanan story'ler:**
+
+Sprint 2 adımları tamamlandıkça güncellenecektir...
+
+**Tamamlanamayan story'ler ve nedenler:**
+
+Sprint 2 içerisinde güncellenecek...
+
+### Sprint Retrospective
+
+**İyi gidenler:**
+
+Sprint 2 süresince güncellenecektir.
+
+**Sprint 3 için aksiyon maddeleri:**
+
+Sprint 2 sonunda güncellenecek....
+
 
 ---
 
