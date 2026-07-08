@@ -132,7 +132,13 @@ Sprint 2'de üretime ait parçalar Developer'lar tarafından kendi çalışma pl
 
 ### Sprint Review
 
-Proje üretim aşamasına geçilmiş olup ürün geliştirme aşamasında ekip üyelerinin hangi proje kısmında rol alması gerektiğine karar verilmiştir. Detaylı rol dağılımı Sprint ilerledikçe güncellenecektir.
+| İsim | Çalışılacak Alan |
+|---|---------|
+|Burak| Her adımda ve alanda Developer backup |
+|Asel| RAG Data Transition LLM to User |
+|Zeynep| Rag Service |
+|Bengisu| UI Design |
+|İlkay| LLM Service |
 
 **Tamamlanan story'ler:**
 
