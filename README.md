@@ -120,7 +120,7 @@ Sprint 2'de üretime ait parçalar Developer'lar tarafından kendi çalışma pl
 
 ### Daily Scrum Notları
 
-📎 Notların tamamı için: [docs/Sprint-1/daily_scrums.md](docs/Sprint-1/daily_scrums.md)
+📎 Notların tamamı için: [docs/Sprint-2/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
 
 ### Sprint Board
 
