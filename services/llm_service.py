@@ -81,4 +81,30 @@ def chat_with_context(user_question: str, context_chunks: list[str], history: li
     Returns:
         A string containing the assistant's response.
     """
-    raise NotImplementedError("To be implemented in a future issue")
+    if context_chunks:
+        context_text = "\n\n---\n\n".join(context_chunks)
+    else:
+        context_text = "No relevant sources were found for this question."
+
+    system = (
+        "You are an idea development assistant. Answer the user's questions "
+        "about their selected idea using ONLY the context provided below, "
+        "which was collected from the web. If the context does not contain "
+        "enough information to answer, say so honestly instead of guessing."
+    )
+    prompt = f"CONTEXT:\n{context_text}\n\nQUESTION:\n{user_question}"
+
+    messages = [{"role": "system", "content": system}]
+    messages.extend(history)
+    messages.append({"role": "user", "content": prompt})
+
+    if config.is_dev:
+        import ollama
+        client = ollama.Client(host=config.OLLAMA_HOST)
+        resp = client.chat(model=config.OLLAMA_CHAT_MODEL, messages=messages)
+        return resp["message"]["content"]
+    else:
+        from groq import Groq
+        client = Groq(api_key=config.GROQ_API_KEY)
+        resp = client.chat.completions.create(model=config.GROQ_MODEL, messages=messages)
+        return resp.choices[0].message.content
