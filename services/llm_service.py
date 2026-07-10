@@ -1,9 +1,33 @@
-
 """
 LLM service layer.
 Abstracts away whether we're calling local Ollama (dev) or Groq API (prod).
-Function signatures are finalized here; implementation is stubbed for now.
 """
+from config import config
+
+
+def _ollama_generate(prompt: str, model: str, system: str = None) -> str:
+    import ollama
+    client = ollama.Client(host=config.OLLAMA_HOST)
+    messages = []
+    if system:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt})
+    resp = client.chat(model=model, messages=messages)
+    return resp["message"]["content"]
+
+
+def _groq_generate(prompt: str, system: str = None) -> str:
+    from groq import Groq
+    client = Groq(api_key=config.GROQ_API_KEY)
+    messages = []
+    if system:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt})
+    resp = client.chat.completions.create(
+        model=config.GROQ_MODEL,
+        messages=messages,
+    )
+    return resp.choices[0].message.content
 
 
 def generate_ideas(theme: str, n: int = 5) -> list[str]:
@@ -18,7 +42,31 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
         A list of strings, each representing one idea
         (e.g. "Idea title - short description").
     """
-    raise NotImplementedError("To be implemented in a future issue")
+    system = (
+        "You are a creative idea generation assistant. "
+        "Given a theme, suggest concrete and actionable ideas. "
+        "You respond ONLY with the requested list — no greetings, "
+        "no closing remarks, no follow-up questions, no extra commentary."
+    )
+    prompt = (
+        f"Theme: {theme}\n\n"
+        f"Suggest {n} original project/startup ideas for this theme. "
+        "Give each idea as one line: a short title + one-sentence description. "
+        "Respond ONLY with a numbered list (1. 2. 3. ...) of exactly "
+        f"{n} items. Do not include any text before or after the list."
+    )
+
+    if config.is_dev:
+        raw = _ollama_generate(prompt, config.OLLAMA_IDEA_MODEL, system)
+    else:
+        raw = _groq_generate(prompt, system)
+
+    ideas = [
+        line.strip()
+        for line in raw.split("\n")
+        if line.strip() and line.strip()[0].isdigit()
+    ]
+    return ideas
 
 
 def chat_with_context(user_question: str, context_chunks: list[str], history: list[dict]) -> str:
