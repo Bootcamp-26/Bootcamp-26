@@ -8,21 +8,34 @@ This module is responsible for:
 - Retrieving relevant documents
 - Managing session context
 """
-
 from typing import Any
-
+import uuid
+import chromadb
 import ollama
-
 from config import config
 
-client = ollama.Client(host=config.OLLAMA_HOST)
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
 
+collection = chroma_client.get_or_create_collection(
+    name="documents"
+)
+
+ollama_client = ollama.Client(host=config.OLLAMA_HOST)
 
 def save_documents(documents: list[str]) -> None:
     """
     Save processed documents into the vector database.
     """
-    pass
+
+    embeddings = generate_embeddings(documents)
+
+    ids = [str(uuid.uuid4()) for _ in documents]
+
+    collection.add(
+        ids=ids,
+        documents=documents,
+        embeddings=embeddings,
+    )
 
 
 def generate_embeddings(documents: list[str]) -> list[list[float]]:
@@ -36,7 +49,7 @@ def generate_embeddings(documents: list[str]) -> list[list[float]]:
         A list of embedding vectors.
     """
 
-    response = client.embed(
+    response = ollama_client.embed(
         model=config.OLLAMA_EMBED_MODEL,
         input=documents,
     )
@@ -44,19 +57,27 @@ def generate_embeddings(documents: list[str]) -> list[list[float]]:
     return response["embeddings"]
 
 
-def similarity_search(query_embedding: Any, top_k: int = 5) -> list[str]:
+def similarity_search(query_embedding: list[float], top_k: int = 5) -> list[str]:
     """
     Find the most relevant documents using vector similarity.
     """
-    pass
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+    )
+
+    return results["documents"][0]
 
 
 def retrieve_documents(query: str, top_k: int = 5) -> list[str]:
     """
     Retrieve the most relevant documents from the vector database.
     """
-    pass
 
+    query_embedding = generate_embeddings([query])[0]
+
+    return similarity_search(query_embedding, top_k)
 
 def load_session_context(session_id: str) -> list[str]:
     """
