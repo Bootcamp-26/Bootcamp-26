@@ -11,6 +11,12 @@ This module is responsible for:
 
 from typing import Any
 
+import ollama
+
+from config import config
+
+client = ollama.Client(host=config.OLLAMA_HOST)
+
 
 def save_documents(documents: list[str]) -> None:
     """
@@ -19,11 +25,23 @@ def save_documents(documents: list[str]) -> None:
     pass
 
 
-def generate_embeddings(documents: list[str]) -> list[Any]:
+def generate_embeddings(documents: list[str]) -> list[list[float]]:
     """
     Generate embeddings for the given documents.
+
+    Args:
+        documents: List of text documents.
+
+    Returns:
+        A list of embedding vectors.
     """
-    pass
+
+    response = client.embed(
+        model=config.OLLAMA_EMBED_MODEL,
+        input=documents,
+    )
+
+    return response["embeddings"]
 
 
 def similarity_search(query_embedding: Any, top_k: int = 5) -> list[str]:
