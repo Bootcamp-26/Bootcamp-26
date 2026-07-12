@@ -1,5 +1,7 @@
 import streamlit as st
 from services.llm_service import generate_ideas
+from services.search_service import search_sources
+from services.rag_service import save_documents
 
 def idea_picker():
     st.markdown("### 💡 Fikir Seçimi")
@@ -36,5 +38,14 @@ def idea_picker():
     with col2:
         if st.button("Bu Fikri Geliştir"):
             st.session_state.selected_idea = selected
-            st.session_state.step = "chat"
-            st.rerun()
+            
+            with st.spinner("Kaynaklar araştırılıyor ve bilgi tabanı hazırlanıyor..."):
+                try:
+                    results = search_sources(selected)
+                    documents = [item["content"] for item in results if item.get("content")]
+                    if documents:
+                        save_documents(documents, st.session_state.session_id)
+                    st.session_state.step = "chat"
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Kaynaklar toplanırken bir hata oluştu: {e}")
