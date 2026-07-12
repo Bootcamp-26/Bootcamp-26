@@ -24,7 +24,11 @@ def chat_ui():
             with st.spinner("İnternet tarıyor, zihinler açılıyor..."):
                 try:
                     # Backend'deki RAG servisini çağırıyoruz
-                    response = get_rag_response(prompt)
+                    response = get_rag_response(
+                        prompt,
+                        st.session_state.session_id,
+                        st.session_state.messages
+                    )
                     st.markdown(response)
                 except Exception as e:
                     st.error("Bir aksilik oldu, ama olsun! Sistem kendini güncelliyor.")
