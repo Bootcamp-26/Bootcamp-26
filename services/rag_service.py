@@ -35,8 +35,8 @@ def save_documents(documents: list[str], session_id: str) -> None:
 
     embeddings = generate_embeddings(chunks)
 
-    ids = [str(uuid.uuid4()) for _ in documents]
-    metadatas = [{"session_id": session_id} for _ in documents]
+    ids = [str(uuid.uuid4()) for _ in chunks]
+    metadatas = [{"session_id": session_id} for _ in chunks]
 
     collection.add(
         ids=ids,
