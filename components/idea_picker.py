@@ -42,7 +42,7 @@ def idea_picker():
             with st.spinner("Kaynaklar araştırılıyor ve bilgi tabanı hazırlanıyor..."):
                 try:
                     results = search_sources(selected)
-                    documents = [item["content"] for item in results if item.get("content")]
+                    documents = [item for item in results if item.get("content")]
                     if documents:
                         save_documents(documents, st.session_state.session_id)
                     st.session_state.step = "chat"

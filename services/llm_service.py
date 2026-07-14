@@ -69,20 +69,29 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
     return ideas
 
 
-def chat_with_context(user_question: str, context_chunks: list[str], history: list[dict]) -> str:
+def chat_with_context(user_question: str, context_chunks: list[dict], history: list[dict]) -> str:
     """
     Generate a chat response using retrieved RAG context and conversation history.
 
     Args:
         user_question: The current question from the user.
-        context_chunks: List of relevant text chunks retrieved from the RAG pipeline.
+        context_chunks: List of relevant dictionaries retrieved from the RAG pipeline.
         history: Previous conversation turns, each as {"role": "user"/"assistant", "content": str}.
 
     Returns:
         A string containing the assistant's response.
     """
     if context_chunks:
-        context_text = "\n\n---\n\n".join(context_chunks)
+        formatted_chunks = []
+        for chunk in context_chunks:
+            title = chunk.get("title", "Unknown Source")
+            url = chunk.get("url", "")
+            content = chunk.get("content", "")
+            if url:
+                formatted_chunks.append(f"Source: {title} ({url})\nContent: {content}")
+            else:
+                formatted_chunks.append(f"Content: {content}")
+        context_text = "\n\n---\n\n".join(formatted_chunks)
     else:
         context_text = "No relevant sources were found for this question."
 
