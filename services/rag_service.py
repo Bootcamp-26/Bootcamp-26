@@ -135,11 +135,15 @@ def similarity_search(query_embedding: list[float], session_id: str, top_k: int 
     Find the most relevant documents using vector similarity.
     """
 
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k,
-        where={"session_id": session_id}
-    )
+    try:
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=top_k,
+            where={"session_id": session_id}
+        )
+    except Exception as e:
+        print(f"Error querying ChromaDB: {e}")
+        return []
 
     documents = results.get("documents")
     metadatas = results.get("metadatas")
@@ -153,7 +157,9 @@ def similarity_search(query_embedding: list[float], session_id: str, top_k: int 
         doc_meta = metadatas[0][i] if metadatas and metadatas[0] else {}
         retrieved.append({
             "content": doc_content,
-            **doc_meta
+            "title": doc_meta.get("title", "Bilinmeyen Kaynak"),
+            "url": doc_meta.get("url", ""),
+            "session_id": doc_meta.get("session_id", session_id)
         })
 
     return retrieved
@@ -164,7 +170,14 @@ def retrieve_documents(query: str, session_id: str, top_k: int = 5) -> list[dict
     Retrieve the most relevant documents from the vector database.
     """
 
-    query_embedding = generate_embeddings([query])[0]
+    if not query or not query.strip():
+        return []
+
+    try:
+        query_embedding = generate_embeddings([query])[0]
+    except Exception as e:
+        print(f"Error generating embeddings: {e}")
+        return []
 
     return similarity_search(query_embedding, session_id, top_k)
 
