@@ -125,7 +125,11 @@ def similarity_search(query_embedding: list[float], session_id: str, top_k: int 
         where={"session_id": session_id}
     )
 
-    return results["documents"][0]
+    documents = results.get("documents")
+    if not documents or not documents[0]:
+        return []
+
+    return documents[0]
 
 
 def retrieve_documents(query: str, session_id: str, top_k: int = 5) -> list[str]:
