@@ -27,7 +27,7 @@ def chat_ui():
                     response = get_rag_response(
                         prompt,
                         st.session_state.session_id,
-                        st.session_state.messages
+                        st.session_state.messages[:-1]
                     )
                     st.markdown(response)
                 except Exception as e:

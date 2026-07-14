@@ -26,17 +26,33 @@ collection = chroma_client.get_or_create_collection(
 
 ollama_client = ollama.Client(host=config.OLLAMA_HOST)
 
-def save_documents(documents: list[str], session_id: str) -> None:
+def save_documents(documents: list[dict], session_id: str) -> None:
     """
     Save processed documents into the vector database.
     """
 
-    chunks = chunk_documents(documents)
+    chunks = []
+    metadatas = []
+
+    for doc_id, doc in enumerate(documents):
+        doc_chunks = chunk_document(doc["content"])
+        chunks.extend(doc_chunks)
+        
+        for i in range(len(doc_chunks)):
+            metadatas.append({
+                "session_id": session_id,
+                "title": doc.get("title", ""),
+                "url": doc.get("url", ""),
+                "document_id": str(doc_id),
+                "chunk_index": i
+            })
+
+    if not chunks:
+        return
 
     embeddings = generate_embeddings(chunks)
 
     ids = [str(uuid.uuid4()) for _ in chunks]
-    metadatas = [{"session_id": session_id} for _ in chunks]
 
     collection.add(
         ids=ids,
@@ -114,26 +130,54 @@ def generate_embeddings(documents: list[str]) -> list[list[float]]:
     return response["embeddings"]
 
 
-def similarity_search(query_embedding: list[float], session_id: str, top_k: int = 5) -> list[str]:
+def similarity_search(query_embedding: list[float], session_id: str, top_k: int = 5) -> list[dict]:
     """
     Find the most relevant documents using vector similarity.
     """
 
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=top_k,
-        where={"session_id": session_id}
-    )
+    try:
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=top_k,
+            where={"session_id": session_id}
+        )
+    except Exception as e:
+        print(f"Error querying ChromaDB: {e}")
+        return []
 
-    return results["documents"][0]
+    documents = results.get("documents")
+    metadatas = results.get("metadatas")
+    
+    if not documents or not documents[0]:
+        return []
+
+    retrieved = []
+    for i in range(len(documents[0])):
+        doc_content = documents[0][i]
+        doc_meta = metadatas[0][i] if metadatas and metadatas[0] else {}
+        retrieved.append({
+            "content": doc_content,
+            "title": doc_meta.get("title", "Bilinmeyen Kaynak"),
+            "url": doc_meta.get("url", ""),
+            "session_id": doc_meta.get("session_id", session_id)
+        })
+
+    return retrieved
 
 
-def retrieve_documents(query: str, session_id: str, top_k: int = 5) -> list[str]:
+def retrieve_documents(query: str, session_id: str, top_k: int = 5) -> list[dict]:
     """
     Retrieve the most relevant documents from the vector database.
     """
 
-    query_embedding = generate_embeddings([query])[0]
+    if not query or not query.strip():
+        return []
+
+    try:
+        query_embedding = generate_embeddings([query])[0]
+    except Exception as e:
+        print(f"Error generating embeddings: {e}")
+        return []
 
     return similarity_search(query_embedding, session_id, top_k)
 
