@@ -99,7 +99,10 @@ def chat_with_context(user_question: str, context_chunks: list[dict], history: l
         "You are an idea development assistant. Answer the user's questions "
         "about their selected idea using ONLY the context provided below, "
         "which was collected from the web. If the context does not contain "
-        "enough information to answer, say so honestly instead of guessing."
+        "enough information to answer, say so honestly instead of guessing. "
+        "IMPORTANT: Always respond in the same language the user's question "
+        "is written in, regardless of what language the context is in. "
+        "Translate relevant information from the context as needed."
     )
     prompt = f"CONTEXT:\n{context_text}\n\nQUESTION:\n{user_question}"
 
