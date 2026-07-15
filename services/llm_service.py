@@ -4,30 +4,44 @@ Abstracts away whether we're calling local Ollama (dev) or Groq API (prod).
 """
 from config import config
 
+class LLMServiceError(Exception):
+    """Raised when an LLM provider (Ollama or Groq) call fails."""
+    pass
 
 def _ollama_generate(prompt: str, model: str, system: str = None) -> str:
     import ollama
-    client = ollama.Client(host=config.OLLAMA_HOST)
-    messages = []
-    if system:
-        messages.append({"role": "system", "content": system})
-    messages.append({"role": "user", "content": prompt})
-    resp = client.chat(model=model, messages=messages)
-    return resp["message"]["content"]
+    try:
+        client = ollama.Client(host=config.OLLAMA_HOST)
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+        resp = client.chat(model=model, messages=messages)
+        return resp["message"]["content"]
+    except ConnectionError:
+        raise LLMServiceError(
+            "Could not connect to Ollama. Make sure Ollama is running "
+            "(try 'ollama serve') and the model is available."
+        )
+    except Exception as e:
+        raise LLMServiceError(f"Ollama request failed: {e}")
 
 
 def _groq_generate(prompt: str, system: str = None) -> str:
     from groq import Groq
-    client = Groq(api_key=config.GROQ_API_KEY)
-    messages = []
-    if system:
-        messages.append({"role": "system", "content": system})
-    messages.append({"role": "user", "content": prompt})
-    resp = client.chat.completions.create(
-        model=config.GROQ_MODEL,
-        messages=messages,
-    )
-    return resp.choices[0].message.content
+    try:
+        client = Groq(api_key=config.GROQ_API_KEY)
+        messages = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+        resp = client.chat.completions.create(
+            model=config.GROQ_MODEL,
+            messages=messages,
+        )
+        return resp.choices[0].message.content
+    except Exception as e:
+        raise LLMServiceError(f"Groq request failed: {e}")
 
 
 def generate_ideas(theme: str, n: int = 5) -> list[str]:
@@ -110,13 +124,21 @@ def chat_with_context(user_question: str, context_chunks: list[dict], history: l
     messages.extend(history)
     messages.append({"role": "user", "content": prompt})
 
-    if config.is_dev:
-        import ollama
-        client = ollama.Client(host=config.OLLAMA_HOST)
-        resp = client.chat(model=config.OLLAMA_CHAT_MODEL, messages=messages)
-        return resp["message"]["content"]
-    else:
-        from groq import Groq
-        client = Groq(api_key=config.GROQ_API_KEY)
-        resp = client.chat.completions.create(model=config.GROQ_MODEL, messages=messages)
-        return resp.choices[0].message.content
+    try:
+        if config.is_dev:
+            import ollama
+            client = ollama.Client(host=config.OLLAMA_HOST)
+            resp = client.chat(model=config.OLLAMA_CHAT_MODEL, messages=messages)
+            return resp["message"]["content"]
+        else:
+            from groq import Groq
+            client = Groq(api_key=config.GROQ_API_KEY)
+            resp = client.chat.completions.create(model=config.GROQ_MODEL, messages=messages)
+            return resp.choices[0].message.content
+    except ConnectionError:
+        raise LLMServiceError(
+            "Could not connect to Ollama. Make sure Ollama is running "
+            "(try 'ollama serve') and the model is available."
+        )
+    except Exception as e:
+        raise LLMServiceError(f"Chat request failed: {e}")
