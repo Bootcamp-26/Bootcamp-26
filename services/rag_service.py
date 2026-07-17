@@ -12,7 +12,6 @@ This module is responsible for:
 import uuid
 
 import chromadb
-import ollama
 
 from config import config
 from services.llm_service import chat_with_context
@@ -23,8 +22,6 @@ chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_or_create_collection(
     name="documents"
 )
-
-ollama_client = ollama.Client(host=config.OLLAMA_HOST)
 
 def save_documents(documents: list[dict], session_id: str) -> None:
     """
@@ -122,6 +119,12 @@ def generate_embeddings(documents: list[str]) -> list[list[float]]:
         A list of embedding vectors.
     """
 
+    # Import and create the client only when embeddings are requested. Importing
+    # Ollama at app startup creates a global HTTP client and can make the whole
+    # UI fail before first render in proxy-based deploy environments.
+    import ollama
+
+    ollama_client = ollama.Client(host=config.OLLAMA_HOST)
     response = ollama_client.embed(
         model=config.OLLAMA_EMBED_MODEL,
         input=documents,

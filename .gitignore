@@ -1,4 +1,6 @@
 venv/
+.venv/
+.qa-venv/
 __pycache__/
 *.pyc
 .env
