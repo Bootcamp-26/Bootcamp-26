@@ -120,15 +120,18 @@ Sprint 2'de üretime ait parçalar Developer'lar tarafından kendi çalışma pl
 
 ### Daily Scrum Notları
 
-📎 Notların tamamı için: [docs/Sprint-2/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
+Notların tamamı için: [docs/Sprint-2/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
 
 ### Sprint Board
 
-📎 Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](https://github.com/orgs/Bootcamp-26/projects/1/views/1)
+Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](https://github.com/orgs/Bootcamp-26/projects/1/views/1)
 
 ### Ürün Durumu
 
-Ürünün gelişme adımları tamamlandıkça durum bilgisi güncellenecektir.
+Üründe LLM entegrasyonu tamamlandı ve ürüne ait görsel/görseller ve ekran görüntüleri aşağıdaki gibidir: 
+
+<img width="1600" height="850" alt="WhatsApp Image 2026-07-17 at 3 36 37 PM" src="https://github.com/user-attachments/assets/d135cee0-e9e3-45c8-b8ae-2e3a2cddb4b4" />
+
 
 ### Sprint Review
 
@@ -142,22 +145,28 @@ Sprint 2'de üretime ait parçalar Developer'lar tarafından kendi çalışma pl
 
 **Tamamlanan story'ler:**
 
-Sprint 2 adımları tamamlandıkça güncellenecektir...
+- Ürüne ait Home Page tamamlandı
+- Ürün LLM entegrasyonu ve optimizasyonu tamamlandı
+- LLM Modelinin veritabanında RAG mimarisini karşılayacak şekilde ayarlandı
+- LLM modelinin İnternet search ve veritabanı bağlantısı tamamlandı
 
 **Tamamlanamayan story'ler ve nedenler:**
 
-Sprint 2 içerisinde güncellenecek...
+- UX geliştirmeleri
 
 ### Sprint Retrospective
 
 **İyi gidenler:**
 
-Sprint 2 süresince güncellenecektir.
+- RAG mimarisinde LLM Modelinin cevaplarının gelişmiş bir şekilde sunulması
+- LLM modelinin internette fikir ve öneri temalarına uygun bir şekilde internette arama yapması
+- 
 
 **Sprint 3 için aksiyon maddeleri:**
 
-Sprint 2 sonunda güncellenecek....
-
+- Ürünün tam çalışır durumda hazırlanması
+- Ürün içerisinde UX açısından varsa yapılması gereken geliştirmeler
+- Kullanıcı deneyimini artırıp kullanıcının ürün içerisinde kalmasını sağlayacak fikirler geliştirilip ürün üzerinde geliştirme yapılması
 
 ---
 
@@ -197,5 +206,4 @@ IdeApp/
 
 ## Kurulum
 
-Proje adımları tamamlandıkça eklenecektir...
-
+Sprint 3 içerisinde güncellenecektir....
