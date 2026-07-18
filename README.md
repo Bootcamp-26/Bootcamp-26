@@ -106,8 +106,6 @@ Sprint 1 içerisinde ürüne dair planlama ve araştırma adımları yapılmış
 
 ## Sprint 2 — 6 Temmuz / 19 Temmuz 2026
 
----
-
 ### Sprint Hedefi
 Sprint 1'de bahsedilen ürünün production aşamalarının planlarak Code Base oluşturulmaya başlanması
 
