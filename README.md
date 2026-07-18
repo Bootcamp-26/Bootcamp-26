@@ -160,7 +160,6 @@ Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/p
 
 - RAG mimarisinde LLM Modelinin cevaplarının gelişmiş bir şekilde sunulması
 - LLM modelinin internette fikir ve öneri temalarına uygun bir şekilde internette arama yapması
-- 
 
 **Sprint 3 için aksiyon maddeleri:**
 
