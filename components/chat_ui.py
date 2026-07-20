@@ -24,7 +24,8 @@ def chat_ui():
             with st.status("Veri işleniyor...", expanded=True) as status:
                 st.write("Vektör veritabanı taranıyor...")
                 try:
-                    response = get_rag_response(prompt)
+                    history = st.session_state.messages[:-1]
+                    response = get_rag_response(prompt, st.session_state.session_id, history)
                     status.update(label="Analiz tamamlandı!", state="complete", expanded=False)
                     st.markdown(response)
                     
