@@ -1,12 +1,7 @@
 """
-services paketi.
-Kullanım: from services import rag_service, llm, session_store, adapter
-
-Import sırası önemli: adapter diğer üçüne bağımlı olduğu için en son
-import ediliyor (dairesel import riskini önler).
+components paketi.
 """
 
-from services import llm, rag_service, session_store
-from services import adapter
+from services import llm_service, rag_service, search_service
 
-__all__ = ["llm", "rag_service", "session_store", "adapter"]
+__all__ = ["llm_service", "rag_service", "search_service"]
