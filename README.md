@@ -169,7 +169,51 @@ Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/p
 
 ## Sprint 3 — 20 Temmuz / 2 Ağustos 2026
 
-_Sprint 3 başlangıcında güncellenecek._
+### Sprint Hedefi
+Sprint 2'de bahsedilen ürünün production sürecince yaşanan UX sorunları giderilmesi ve UX geliştirmelerinin yapılarak proje teslimine hazır duruma getirilmesi
+
+### Backlog Dağıtım Mantığı
+
+Sprint 3'te ürüne ait parçalar Developer'lar tarafından hazırlanarak kullanıcının rahat kullanımı göz önüne çıkarılmıştır. Üründe yapılan değişiklikler aşağıdaki gibidir:
+- UI üzerinde bulunan dengesiz parçaların değiştirilmesi ve ürün imajı açısından düzenlenmiştir
+- Tema ve fikir önerileri açısından da LLM modelinin yaşamış olduğu sorunlar giderilmiştir.
+
+### Daily Scrum Notları
+
+Notların tamamı için: [docs/Sprint-2/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
+
+### Sprint Board
+
+Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/projects/1/views/1](https://github.com/orgs/Bootcamp-26/projects/1/views/1)
+
+### Ürün Durumu
+
+Ürün kullanıma hazır hale getirilmiştir. Ürünle ilgili detaylı video ve görseller sprint içerisinde eklenecektir...
+
+### Sprint Review
+
+| İsim | Çalışılacak Alan |
+|---|---------|
+|Burak| Her adımda ve alanda Developer backup |
+|Asel| RAG Data Transition LLM to User |
+|Zeynep| Rag Service |
+|Bengisu| UI Design |
+|İlkay| LLM Service |
+
+**Tamamlanan story'ler:**
+
+- Ürün UX geliştirmeleri tamamlandı
+- Ürünün UI geliştirmeleri tamamlandı
+- LLM entegrasyonu sırasında karşılaşılan model başlatma sorunları giderildi
+- LLM modelinin RAG sırasında doğru oranlamasının yapması için uygun embed ve vectorization modellemesi yapıldı
+
+
+### Sprint Retrospective
+
+**İyi gidenler:**
+
+- LLM modelinin kullanıcının seçmiş bulunduğu tema ve fikir önerisine uygun arama yapma yeteneğinin kullanıcı isteklerine uygun şekilde yapılması
+- RAG yapılan konuya dair kullanıcı promptlarına uygun şekilde response değerlendirmesine dikkat edildi
 
 ---
 
@@ -193,10 +237,12 @@ IdeApp/
     ├── Sprint-1/
     │   ├── planning.md
     │   ├── daily_scrums.md
-    │   ├── review.md
-    │   └── retrospective.md
     ├── Sprint-2/
+    │   ├── planning.md
+    │   ├── daily_scrums.md
     └── Sprint-3/
+    │   ├── planning.md
+    │   ├── daily_scrums.md
 ```
 
 ---
