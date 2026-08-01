@@ -57,17 +57,17 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
         (e.g. "Idea title - short description").
     """
     system = (
-        "You are a creative idea generation assistant. "
-        "Given a theme, suggest concrete and actionable ideas. "
-        "You respond ONLY with the requested list — no greetings, "
-        "no closing remarks, no follow-up questions, no extra commentary."
+        "Sen yaratıcı bir proje/startup fikri üretme asistanısın. "
+        "Verilen tema hakkında somut ve uygulanabilir fikirler önerirsin. "
+        "Kesinlikle Türkçe yanıt vermelisin. "
+        "Sadece istenen listeyi dönmelisin — selamlama, kapanış, ek açıklama yok."
     )
     prompt = (
-        f"Theme: {theme}\n\n"
-        f"Suggest {n} original project/startup ideas for this theme. "
-        "Give each idea as one line: a short title + one-sentence description. "
-        "Respond ONLY with a numbered list (1. 2. 3. ...) of exactly "
-        f"{n} items. Do not include any text before or after the list."
+        f"Tema: {theme}\n\n"
+        f"Bu tema için {n} adet özgün proje/startup fikri öner. "
+        "Her bir fikri tek bir satırda ver: kısa bir başlık + bir cümlelik açıklama. "
+        "Sadece numaralandırılmış bir liste (1. 2. 3. ...) olarak yanıt ver ve tam olarak "
+        f"{n} adet fikir içersin. Listenin önüne veya arkasına hiçbir metin ekleme."
     )
 
     if config.is_dev:
@@ -142,3 +142,45 @@ def chat_with_context(user_question: str, context_chunks: list[dict], history: l
         )
     except Exception as e:
         raise LLMServiceError(f"Chat request failed: {e}")
+
+
+def generate_chat_title(user_message: str) -> str:
+    """
+    Generate a 3-4 word summary title for a chat based on the first user message.
+    """
+    system = "Sen bir asistan yazılımsın. Verilen kullanıcı mesajını özetleyen maksimum 3-4 kelimelik kısa ve net bir Türkçe başlık üret. Başlıkta tırnak işareti kullanma."
+    prompt = f"Kullanıcı Mesajı: {user_message}\n\nKısa Başlık:"
+    
+    try:
+        if config.is_dev:
+            import ollama
+            client = ollama.Client(host=config.OLLAMA_HOST)
+            resp = client.chat(
+                model=config.OLLAMA_CHAT_MODEL, 
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            title = resp["message"]["content"].strip()
+        else:
+            from groq import Groq
+            client = Groq(api_key=config.GROQ_API_KEY)
+            resp = client.chat.completions.create(
+                model=config.GROQ_MODEL,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            title = resp.choices[0].message.content.strip()
+        
+        # Temizleme
+        title = title.replace('"', '').replace("'", "").strip()
+        if len(title) > 40:
+            title = title[:37] + "..."
+        return title
+    except Exception:
+        # Hata durumunda mesajın ilk kelimelerini al
+        words = user_message.split()
+        return " ".join(words[:4]) + "..." if len(words) > 4 else user_message

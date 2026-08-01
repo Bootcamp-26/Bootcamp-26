@@ -1,11 +1,9 @@
 import streamlit as st
+import random
 
 from components.theme.photon_theme import inject_photon_theme, status_bar, holographic_divider
 
-# Hızlı seçim çipleri: kullanıcı tıklayınca tema kutusuna doğrudan yazılır.
-# Backend hâlâ tek bir serbest metin (theme) bekliyor; bu chip'ler sadece
-# metni hızlıca doldurmanın bir yolu — hiçbir API sözleşmesi değişmiyor.
-QUICK_TOPICS = [
+ALL_TOPICS = [
     ("🧠", "Yapay Zeka destekli eğitim"),
     ("🌱", "Sürdürülebilirlik ve iklim"),
     ("💊", "Dijital sağlık"),
@@ -14,6 +12,22 @@ QUICK_TOPICS = [
     ("🏙️", "Akıllı şehir çözümleri"),
     ("🎨", "Yaratıcı içerik araçları"),
     ("🔐", "Siber güvenlik"),
+    ("🚀", "Uzay teknolojileri"),
+    ("🌾", "Akıllı tarım ve gıda"),
+    ("📦", "Otonom lojistik"),
+    ("⚡", "Temiz enerji sistemleri"),
+    ("🕶️", "Sanal ve artırılmış gerçeklik"),
+    ("🐾", "Evcil hayvan teknolojileri"),
+    ("👵", "Yaşlı bakım ve destek"),
+    ("🏠", "Akıllı ev ve IoT"),
+    ("🌊", "Deniz ve su teknolojileri"),
+    ("♿", "Engelsiz yaşam çözümleri"),
+    ("🛠️", "Mikro-üretim ve 3D"),
+    ("🧬", "Biyoteknoloji ve genetik"),
+    ("🚲", "Mikro-mobilite çözümleri"),
+    ("🎬", "Yeni nesil eğlence"),
+    ("📚", "Açık kaynak eğitim"),
+    ("👔", "Uzaktan çalışma araçları"),
 ]
 
 
@@ -75,20 +89,31 @@ def theme_picker() -> None:
     st.markdown("#### 🎯 Tema Seçimi")
     st.caption("HANGİ ALANDA BİR PROJE GELİŞTİRMEK İSTİYORSUN?")
 
-    if "theme_input" not in st.session_state:
-        st.session_state.theme_input = ""
+    if "theme_text_input" not in st.session_state:
+        st.session_state.theme_text_input = ""
+    if "current_topics" not in st.session_state:
+        st.session_state.current_topics = ALL_TOPICS[:8]
 
     # ---- Hızlı seçim çipleri (grid) ----
     cols = st.columns(4)
-    for i, (emoji, label) in enumerate(QUICK_TOPICS):
+    for i, (emoji, label) in enumerate(st.session_state.current_topics):
         with cols[i % 4]:
             if st.button(f"{emoji} {label}", key=f"quick_{i}", use_container_width=True):
-                st.session_state.theme_input = label
+                st.session_state.theme_text_input = label
+
+    # Başka öner butonu
+    st.write("")
+    _, col_suggest, _ = st.columns([1.2, 1, 1.2])
+    with col_suggest:
+        if st.button("🔄 Başka Öner", use_container_width=True):
+            remaining = [t for t in ALL_TOPICS if t not in st.session_state.current_topics]
+            st.session_state.current_topics = random.sample(remaining, 8)
+            st.rerun()
 
     st.write("")
     theme = st.text_input(
         "Tema",
-        value=st.session_state.theme_input,
+        value=st.session_state.theme_text_input,
         placeholder="Örn: Yapay Zeka destekli eğitim...",
         label_visibility="collapsed",
         key="theme_text_input",

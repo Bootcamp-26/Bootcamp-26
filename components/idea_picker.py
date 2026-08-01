@@ -65,6 +65,8 @@ def idea_picker() -> None:
 
     if "idea_selected_index" not in st.session_state:
         st.session_state.idea_selected_index = None
+    if "custom_idea_input" not in st.session_state:
+        st.session_state.custom_idea_input = ""
 
     # ---- 2x2 fikir kartı grid'i ----
     cols = st.columns(2)
@@ -79,8 +81,25 @@ def idea_picker() -> None:
                 use_container_width=True,
             ):
                 st.session_state.idea_selected_index = i
+                # Kart seçildiğinde, metin alanını da bu kartın temizlenmiş içeriği ile güncelle
+                text = idea.strip()
+                if text[:2].rstrip(".").isdigit():
+                    text = text.split(".", 1)[-1].strip()
+                st.session_state.custom_idea_input = text
                 st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
+
+    st.write("")
+    st.markdown("##### ✍️ Veya Kendi Fikrini Yaz / Düzenle")
+    st.caption("Yukarıdaki önerilerden birini seçip üzerinde değişiklik yapabilir ya da tamamen yeni bir fikir yazabilirsin:")
+    
+    custom_idea = st.text_area(
+        "Fikir İçeriği",
+        value=st.session_state.custom_idea_input,
+        placeholder="Örn: Yapay zeka destekli, öğrencilerin ödevlerini analiz eden mobil uygulama...",
+        label_visibility="collapsed",
+        key="custom_idea_input"
+    )
 
     st.write("")
     col1, col2 = st.columns(2)
@@ -89,21 +108,43 @@ def idea_picker() -> None:
         if st.button("← Geri Dön (Tema Değiştir)", use_container_width=True):
             st.session_state.pop("generated_ideas", None)
             st.session_state.idea_selected_index = None
+            st.session_state.pop("custom_idea_input", None)
             st.session_state.step = "theme_selection"
             st.rerun()
 
     with col2:
-        develop_disabled = st.session_state.idea_selected_index is None
+        develop_disabled = not custom_idea.strip()
         if st.button("Bu Fikri Geliştir →", type="primary", use_container_width=True, disabled=develop_disabled):
-            selected = ideas[st.session_state.idea_selected_index]
+            selected = custom_idea.strip()
             st.session_state.selected_idea = selected
+            
+            import uuid
+            idea_session_id = str(uuid.uuid4())
+            st.session_state.idea_session_id = idea_session_id
 
             with st.spinner("Kaynaklar araştırılıyor ve bilgi tabanı hazırlanıyor..."):
                 try:
                     results = search_sources(selected)
                     documents = [item for item in results if item.get("content")]
                     if documents:
-                        save_documents(documents, st.session_state.session_id)
+                        save_documents(documents, idea_session_id)
+                    
+                    # Yeni fikir için ilk sohbet oturumunu oluşturalım
+                    chat_session_id = str(uuid.uuid4())
+                    welcome_message = {
+                        "role": "assistant",
+                        "content": f"Merhaba! **{selected}** fikrinizi geliştirmek için gerekli araştırmaları tamamladım ve bilgi tabanını hazırladım. Projenin iş modeli, hedef kitlesi, teknik altyapısı veya pazarlama stratejisi gibi konuları birlikte tartışıp geliştirebiliriz. Merak ettiğiniz soruları sormaya başlayabilirsiniz!"
+                    }
+                    st.session_state.chat_sessions = {
+                        chat_session_id: {
+                            "title": "Yeni Sohbet",
+                            "messages": [welcome_message],
+                            "idea_session_id": idea_session_id,
+                            "selected_idea": selected
+                        }
+                    }
+                    st.session_state.current_chat_session_id = chat_session_id
+                    
                     st.session_state.step = "chat"
                     st.session_state.idea_selected_index = None
                     st.rerun()
