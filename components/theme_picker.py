@@ -81,6 +81,24 @@ def _hero() -> None:
 
 def theme_picker() -> None:
     inject_photon_theme()
+    # En üstte karşılama şeridi ve Kullanıcı Menüsü
+    col_welcome, col_pop = st.columns([3.2, 1])
+    with col_welcome:
+        st.markdown(f"### 👋 Merhaba, {st.session_state.username}!")
+    with col_pop:
+        with st.popover("👤 Hesabım", use_container_width=True):
+            st.markdown(f"**Aktif Kullanıcı:** `{st.session_state.username}`")
+            st.divider()
+            if st.button("🚪 Çıkış Yap", use_container_width=True):
+                st.session_state.username = ""
+                st.session_state.step = "login"
+                st.session_state.pop("chat_sessions", None)
+                st.session_state.pop("current_chat_session_id", None)
+                st.session_state.pop("selected_idea", None)
+                st.session_state.pop("idea_session_id", None)
+                st.rerun()
+
+    # Altında status_bar gösterelim
     status_bar(st.session_state.get("session_id", ""), module="IDEA-ENGINE")
 
     _hero()
@@ -130,3 +148,14 @@ def theme_picker() -> None:
                 st.rerun()
             else:
                 st.warning("Lütfen bir tema giriniz veya yukarıdan hızlı seçim yap.")
+
+        # Eski sohbetleri yükle ve buton göster
+        from services.storage_service import load_user_chats
+        user_chats = load_user_chats(st.session_state.username)
+        if user_chats:
+            st.write("")
+            if st.button("📚 Eski Sohbetlerim", use_container_width=True):
+                st.session_state.chat_sessions = user_chats
+                st.session_state.current_chat_session_id = list(user_chats.keys())[0]
+                st.session_state.step = "chat"
+                st.rerun()

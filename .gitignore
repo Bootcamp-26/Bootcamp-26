@@ -1,5 +1,43 @@
+# Virtual Environment
 venv/
+.venv/
+env/
+
+# Python Cache
 __pycache__/
 *.pyc
-.env
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Storage / Databases
 chroma_db/
+chat_storage.json
+*.db
+*.sqlite
+
+# Environment Configuration
+.env
+.env.local
+.env.*.local
+.streamlit/secrets.toml
+
+# MacOS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log

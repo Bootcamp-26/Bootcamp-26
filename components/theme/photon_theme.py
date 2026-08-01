@@ -255,6 +255,44 @@ def inject_photon_theme() -> None:
         }}
         .photon-fade-up {{ animation: photon-fade-up .5s cubic-bezier(.16,.84,.44,1) both; }}
 
+        /* ---------- Popover (açılır menü) ve Dialog kontrastı ---------- */
+        div[data-testid="stPopoverBody"], div[role="dialog"], [data-testid="stPopoverBody"] {{
+            background-color: #0b0f19 !important;
+            background-image: linear-gradient(160deg, rgba(11,15,25,0.98), rgba(3,7,18,0.99)) !important;
+            border: 1px solid rgba(6,182,212,0.4) !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7) !important;
+            color: #e2f4f7 !important;
+        }}
+        div[data-testid="stPopoverBody"] p, div[data-testid="stPopoverBody"] span, div[data-testid="stPopoverBody"] label,
+        div[role="dialog"] p, div[role="dialog"] span, div[role="dialog"] label {{
+            color: #e2f4f7 !important;
+        }}
+
+        /* ---------- Popover Butonu kontrastı ---------- */
+        div[data-testid="stPopover"] button, [data-testid="stPopover"] button {{
+            background-color: rgba(6, 182, 212, 0.10) !important;
+            border: 1px solid rgba(34, 211, 238, 0.55) !important;
+            color: {CYAN_BRIGHT} !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.12) !important;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+        }}
+        div[data-testid="stPopover"] button:hover, [data-testid="stPopover"] button:hover {{
+            background-color: rgba(6, 182, 212, 0.22) !important;
+            box-shadow: 0 0 14px rgba(34, 211, 238, 0.55), 0 0 34px rgba(6, 182, 212, 0.30) !important;
+            color: #ffffff !important;
+        }}
+        div[data-testid="stPopover"] button p, div[data-testid="stPopover"] button span,
+        div[data-testid="stPopover"] button label {{
+            color: {CYAN_BRIGHT} !important;
+        }}
+        div[data-testid="stPopover"] button:hover p, div[data-testid="stPopover"] button:hover span,
+        div[data-testid="stPopover"] button:hover label {{
+            color: #ffffff !important;
+        }}
+
         ::selection {{ background: rgba(6,182,212,0.35); color: #fff; }}
         </style>
         <div class="photon-scanline"></div>

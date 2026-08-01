@@ -188,9 +188,14 @@ def load_session_context(session_id: str) -> list[str]:
     """
     pass
 
-def get_rag_response(query: str, session_id: str, history: list[dict]) -> str:
+def get_rag_response(query: str, session_id: str, history: list[dict], selected_idea: str) -> str:
     """
     Orchestrate the RAG pipeline by retrieving documents and passing them to the LLM.
     """
     context_chunks = retrieve_documents(query, session_id)
-    return chat_with_context(user_question=query, context_chunks=context_chunks, history=history)
+    return chat_with_context(
+        user_question=query, 
+        context_chunks=context_chunks, 
+        history=history, 
+        selected_idea=selected_idea
+    )

@@ -39,6 +39,24 @@ def _idea_card_label(idea: str, index: int) -> str:
 
 def idea_picker() -> None:
     inject_photon_theme()
+    # En üstte karşılama şeridi ve Kullanıcı Menüsü
+    col_welcome, col_pop = st.columns([3.2, 1])
+    with col_welcome:
+        st.markdown(f"### 👋 Merhaba, {st.session_state.username}!")
+    with col_pop:
+        with st.popover("👤 Hesabım", use_container_width=True):
+            st.markdown(f"**Aktif Kullanıcı:** `{st.session_state.username}`")
+            st.divider()
+            if st.button("🚪 Çıkış Yap", use_container_width=True):
+                st.session_state.username = ""
+                st.session_state.step = "login"
+                st.session_state.pop("chat_sessions", None)
+                st.session_state.pop("current_chat_session_id", None)
+                st.session_state.pop("selected_idea", None)
+                st.session_state.pop("idea_session_id", None)
+                st.rerun()
+
+    # Altında status_bar gösterelim
     status_bar(st.session_state.get("session_id", ""), module="RAG-CORE v2.3")
 
     st.markdown("#### 💡 Fikir Havuzu")
@@ -89,6 +107,16 @@ def idea_picker() -> None:
                 st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
 
+    # Başka öner butonu (Fikir kartlarının hemen altında)
+    st.write("")
+    _, col_suggest, _ = st.columns([1.2, 1, 1.2])
+    with col_suggest:
+        if st.button("🔄 Başka Fikir Öner", use_container_width=True):
+            st.session_state.pop("generated_ideas", None)
+            st.session_state.idea_selected_index = None
+            st.session_state.custom_idea_input = ""
+            st.rerun()
+
     st.write("")
     st.markdown("##### ✍️ Veya Kendi Fikrini Yaz / Düzenle")
     st.caption("Yukarıdaki önerilerden birini seçip üzerinde değişiklik yapabilir ya da tamamen yeni bir fikir yazabilirsin:")
@@ -135,15 +163,20 @@ def idea_picker() -> None:
                         "role": "assistant",
                         "content": f"Merhaba! **{selected}** fikrinizi geliştirmek için gerekli araştırmaları tamamladım ve bilgi tabanını hazırladım. Projenin iş modeli, hedef kitlesi, teknik altyapısı veya pazarlama stratejisi gibi konuları birlikte tartışıp geliştirebiliriz. Merak ettiğiniz soruları sormaya başlayabilirsiniz!"
                     }
-                    st.session_state.chat_sessions = {
-                        chat_session_id: {
-                            "title": "Yeni Sohbet",
-                            "messages": [welcome_message],
-                            "idea_session_id": idea_session_id,
-                            "selected_idea": selected
-                        }
+                    
+                    # Kullanıcının mevcut diğer eski sohbetlerini koruyarak yeni sohbeti ekleyelim
+                    from services.storage_service import load_user_chats, save_user_chats
+                    current_sessions = load_user_chats(st.session_state.username)
+                    current_sessions[chat_session_id] = {
+                        "title": "Yeni Sohbet",
+                        "messages": [welcome_message],
+                        "idea_session_id": idea_session_id,
+                        "selected_idea": selected
                     }
+                    
+                    st.session_state.chat_sessions = current_sessions
                     st.session_state.current_chat_session_id = chat_session_id
+                    save_user_chats(st.session_state.username, st.session_state.chat_sessions)
                     
                     st.session_state.step = "chat"
                     st.session_state.idea_selected_index = None

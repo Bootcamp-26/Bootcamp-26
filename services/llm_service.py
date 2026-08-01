@@ -16,7 +16,8 @@ def _ollama_generate(prompt: str, model: str, system: str = None) -> str:
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
-        resp = client.chat(model=model, messages=messages)
+        # Yaratıcılığı artırmak ve farklı çıktılar almak için temperature değerini 0.85 yapıyoruz
+        resp = client.chat(model=model, messages=messages, options={"temperature": 0.85})
         return resp["message"]["content"]
     except ConnectionError:
         raise LLMServiceError(
@@ -35,9 +36,11 @@ def _groq_generate(prompt: str, system: str = None) -> str:
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
+        # Yaratıcılığı artırmak ve farklı çıktılar almak için temperature değerini 0.85 yapıyoruz
         resp = client.chat.completions.create(
             model=config.GROQ_MODEL,
             messages=messages,
+            temperature=0.85,
         )
         return resp.choices[0].message.content
     except Exception as e:
@@ -56,6 +59,22 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
         A list of strings, each representing one idea
         (e.g. "Idea title - short description").
     """
+    import random
+    
+    # Modelin her istekte farklı bakış açıları geliştirmesi için rastgele bir odak açısı seçiyoruz
+    ANGLES = [
+        "mobil öncelikli çözümler",
+        "toplumsal fayda ve sürdürülebilirlik",
+        "bireysel kullanım kolaylığı ve hız",
+        "işletmeler arası (B2B) verimlilik ve SaaS model",
+        "maliyet tasarrufu ve ekonomik çözümler",
+        "yapay zeka otomasyonu ve zaman tasarrufu",
+        "topluluk oluşturma ve sosyal etkileşim",
+        "veri analitiği, kişiselleştirme ve tahminleme",
+        "oyunlaştırma ve kullanıcı bağlılığı",
+    ]
+    angle = random.choice(ANGLES)
+
     system = (
         "Sen yaratıcı bir proje/startup fikri üretme asistanısın. "
         "Verilen tema hakkında somut ve uygulanabilir fikirler önerirsin. "
@@ -63,7 +82,8 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
         "Sadece istenen listeyi dönmelisin — selamlama, kapanış, ek açıklama yok."
     )
     prompt = (
-        f"Tema: {theme}\n\n"
+        f"Tema: {theme}\n"
+        f"Bakış Açısı Odağı: Fikirleri özellikle '{angle}' perspektifinden ele alarak geliştir.\n\n"
         f"Bu tema için {n} adet özgün proje/startup fikri öner. "
         "Her bir fikri tek bir satırda ver: kısa bir başlık + bir cümlelik açıklama. "
         "Sadece numaralandırılmış bir liste (1. 2. 3. ...) olarak yanıt ver ve tam olarak "
@@ -83,7 +103,7 @@ def generate_ideas(theme: str, n: int = 5) -> list[str]:
     return ideas
 
 
-def chat_with_context(user_question: str, context_chunks: list[dict], history: list[dict]) -> str:
+def chat_with_context(user_question: str, context_chunks: list[dict], history: list[dict], selected_idea: str) -> str:
     """
     Generate a chat response using retrieved RAG context and conversation history.
 
@@ -91,6 +111,7 @@ def chat_with_context(user_question: str, context_chunks: list[dict], history: l
         user_question: The current question from the user.
         context_chunks: List of relevant dictionaries retrieved from the RAG pipeline.
         history: Previous conversation turns, each as {"role": "user"/"assistant", "content": str}.
+        selected_idea: The exact project/startup idea being discussed.
 
     Returns:
         A string containing the assistant's response.
@@ -107,18 +128,22 @@ def chat_with_context(user_question: str, context_chunks: list[dict], history: l
                 formatted_chunks.append(f"Content: {content}")
         context_text = "\n\n---\n\n".join(formatted_chunks)
     else:
-        context_text = "No relevant sources were found for this question."
+        context_text = "Proje fikri ile ilgili henüz doğrudan taranmış internet kaynağı bulunamadı."
 
     system = (
-        "You are an idea development assistant. Answer the user's questions "
-        "about their selected idea using ONLY the context provided below, "
-        "which was collected from the web. If the context does not contain "
-        "enough information to answer, say so honestly instead of guessing. "
-        "IMPORTANT: Always respond in the same language the user's question "
-        "is written in, regardless of what language the context is in. "
-        "Translate relevant information from the context as needed."
+        "Sen girişimcilik, iş geliştirme ve yazılım mimarisi alanında uzman, son derece yardımsever ve bilgili bir yapay zeka asistanısın.\n\n"
+        f"Kullanıcının geliştirmek istediği proje fikri: '{selected_idea}'\n\n"
+        "GÖREVİN VE ÇALIŞMA PRENSİPLERİN:\n"
+        "1. Kullanıcının bu proje fikriyle ilgili sorduğu soruları yanıtla, beyin fırtınası yapmasına yardımcı ol, "
+        "iş modeli (Canvas), teknik mimari, pazar analizi, özellikler ve yol haritası gibi konularda somut, yaratıcı ve geliştirici öneriler sun.\n"
+        "2. Sana sağlanan 'BAĞLAM' (CONTEXT) verileri, bu proje fikriyle ilgili internetten taranmış gerçek araştırma sonuçlarıdır. "
+        "Yanıtlarında bu bağlamdaki bilgileri temel al, doğruları referans göster ve bağlamdan sapmamaya özen göster (RAG).\n"
+        "3. Eğer kullanıcının sorduğu soru veya istediği detaylar bağlamda yer almıyorsa, robotik bir şekilde 'bilmiyorum' demek yerine "
+        "kendi genel kültürünü, iş geliştirme ve yazılım bilgini kullanarak kullanıcıya yol göster (normal bir LLM gibi davran). Ancak bu esnada "
+        "kullanıcının seçtiği temel fikirden kopma ve gerçekçi pazar sınırları içerisinde kal.\n"
+        "4. Her zaman kullanıcının soru sorduğu dilde yanıt ver (genellikle Türkçe)."
     )
-    prompt = f"CONTEXT:\n{context_text}\n\nQUESTION:\n{user_question}"
+    prompt = f"BAĞLAM (WEB ARAŞTIRMALARI):\n{context_text}\n\nKULLANICI SORUSU:\n{user_question}"
 
     messages = [{"role": "system", "content": system}]
     messages.extend(history)
