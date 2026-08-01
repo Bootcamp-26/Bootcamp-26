@@ -264,6 +264,62 @@ IdeApp/
 
 ---
 
-## Kurulum
+## Kurulum ve Başlatma
 
-Sprint 3 içerisinde güncellenecektir....
+Projeyi yerel bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki adımları sırasıyla takip ediniz:
+
+### 1. Sistem Gereksinimleri
+* **Python 3.11+** yüklü olmalıdır.
+* Geliştirme (development) ortamı için bilgisayarınızda **Ollama** yüklü ve çalışır durumda olmalıdır.
+* Projenin internet araştırması (RAG) yapabilmesi için bir **Tavily API** anahtarına ve production ortamında çalışacaksa **Groq API** anahtarına ihtiyacınız vardır.
+
+### 2. Kurulum Adımları
+1. **Projeyi Klonlayın:**
+   ```bash
+   git clone https://github.com/Bootcamp-26/Bootcamp-26.git
+   cd Bootcamp-26
+   ```
+
+2. **Sanal Ortam (Virtual Environment) Oluşturun ve Aktifleştirin:**
+   * **macOS / Linux:**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+   * **Windows:**
+     ```bash
+     python -m venv venv
+     venv\Scripts\activate
+     ```
+
+3. **Gerekli Kütüphaneleri Yükleyin:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Çevre Değişkenlerini Yapılandırın:**
+   Kök dizindeki `.env.example` dosyasını `.env` adıyla kopyalayın:
+   ```bash
+   cp .env.example .env
+   ```
+   Ardından `.env` dosyasını açıp gerekli API anahtarlarını girin:
+   ```env
+   APP_ENV=dev
+   GROQ_API_KEY=your_groq_api_key_here
+   TAVILY_API_KEY=your_tavily_api_key_here
+   ```
+
+5. **Ollama Modellerini Çekin (Dev/Yerel Ortam İçin):**
+   Yerel Ollama uygulamasının açık olduğundan emin olun ve terminalden gerekli modelleri indirin:
+   ```bash
+   ollama pull gemma3:4b
+   ollama pull llama3.1:8b
+   ollama pull nomic-embed-text
+   ```
+
+### 3. Uygulamayı Çalıştırma
+Aşağıdaki komutu kullanarak Streamlit uygulamasını başlatın:
+```bash
+streamlit run app.py
+```
+Uygulama başarıyla başladığında tarayıcınızda otomatik olarak açılacaktır (varsayılan adres: `http://localhost:8501`).
