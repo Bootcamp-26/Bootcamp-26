@@ -123,7 +123,6 @@ def idea_picker() -> None:
     
     custom_idea = st.text_area(
         "Fikir İçeriği",
-        value=st.session_state.custom_idea_input,
         placeholder="Örn: Yapay zeka destekli, öğrencilerin ödevlerini analiz eden mobil uygulama...",
         label_visibility="collapsed",
         key="custom_idea_input"

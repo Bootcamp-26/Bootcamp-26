@@ -131,7 +131,6 @@ def theme_picker() -> None:
     st.write("")
     theme = st.text_input(
         "Tema",
-        value=st.session_state.theme_text_input,
         placeholder="Örn: Yapay Zeka destekli eğitim...",
         label_visibility="collapsed",
         key="theme_text_input",
