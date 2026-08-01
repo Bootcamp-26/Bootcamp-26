@@ -188,7 +188,24 @@ Board görünümleri ve detayları için: [https://github.com/orgs/Bootcamp-26/p
 
 ### Ürün Durumu
 
-Ürün kullanıma hazır hale getirilmiştir. Ürünle ilgili detaylı video ve görseller sprint içerisinde eklenecektir...
+Ürün kullanıma hazır hale getirilmiştir. Ürünle ilgili görseller aşağıdaki gibidir:
+
+Ürünün ilk başlangıç sayfası: 
+
+<img width="1078" height="669" alt="Screen Shot 2026-08-01 at 4 21 32 PM" src="https://github.com/user-attachments/assets/f94f1444-7ad2-4ca2-9fbd-142b2eedaf64" />
+
+Ürüne ait Tema seçme alanı ve ana sayfası aşağıdaki gibidir: 
+
+<img width="1837" height="943" alt="Screen Shot 2026-08-01 at 4 21 38 PM" src="https://github.com/user-attachments/assets/db1430a2-5895-401b-acaf-a2aa004cc465" />
+
+Ürüne ait fikir seçme ve fikir önerileri ekranı aşağıdaki gibidir: 
+
+<img width="1816" height="921" alt="Screen Shot 2026-08-01 at 4 21 55 PM" src="https://github.com/user-attachments/assets/e261076e-31b8-45e7-93ea-088298781bcf" />
+
+Üründe kullanıcının AI Sohbet alanı olarak kullanabileceği ekran aşağıdaki gibidir: 
+
+<img width="1856" height="923" alt="Screen Shot 2026-08-01 at 4 22 12 PM" src="https://github.com/user-attachments/assets/7f1cc3b7-9de9-41d5-89c3-226e81812540" />
+
 
 ### Sprint Review
 
