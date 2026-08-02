@@ -180,7 +180,7 @@ Sprint 3'te ürüne ait parçalar Developer'lar tarafından hazırlanarak kullan
 
 ### Daily Scrum Notları
 
-Notların tamamı için: [docs/Sprint-2/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
+Notların tamamı için: [docs/Sprint-3/daily_scrums.md](docs/Sprint-2/daily_scrums.md)
 
 ### Sprint Board
 
