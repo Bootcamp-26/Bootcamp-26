@@ -10,7 +10,3 @@ Sprint 3 başlangıcında uygulamanın tam uçtan uca regresyon testi yapıldı:
 
 ### Ürüne ait görsel
 <img width="1772" height="1086" alt="Screen Shot 2026-07-27 at 9 30 40 PM" src="https://github.com/user-attachments/assets/b0406ec1-46c8-4b96-b561-a90615374da4" />
-
----
-
-**29/07/2026**
